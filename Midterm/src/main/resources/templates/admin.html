@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="layoutadmin::layoutadmin(~{::section})">
+<head>
+    <meta charset="ISO-8859-1">
+    <title>Insert title here</title>
+
+</head>
+<body>
+
+
+<section>
+    <div align="center">
+
+        <h1>Product List</h1>
+        <a href="/products/new">Create New Product</a>
+        <br/><br/>
+        <table border="1" cellpadding="10">
+            <thead>
+            <tr>
+                <th>Image</th> <th>Name</th> <th>Brand</th> <th>Color</th> <th>Price</th> <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="product : ${products}">
+                <td><img  height="100px" width="100px" th:src="@{/images/{imageName}(imageName=${product.image})}"></td>
+                <td th:text="${product.name}">Name</td>
+                <td th:text="${product.brand}">Brand</td>
+                <td th:text="${product.color}">Made in</td>
+                <td th:text="${product.price}">Price</td>
+                <td>
+                    <a th:href="@{'/products/edit/' + ${product.id}}">Edit</a>
+                    &nbsp;&nbsp;&nbsp;
+                    <a th:href="@{'/products/delete/' + ${product.id}}">Delete</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+
+
+</body>
+</html>

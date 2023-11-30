@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="layout::layout(~{::section})">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Giỏ hàng</title>
+  <!-- Thêm CSS Bootstrap -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css    ">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <style>
+    .stepper {
+      display: flex;
+      border: 1px solid black;
+      width: fit-content;
+    }
+    .stepper button {
+      outline: none;
+      border: none;
+      background-color: #999999;
+    }
+
+    .stepper button:hover {
+      background-color: #d7d5d5;
+      cursor: pointer;
+    }
+    .stepper-number {
+      width: 35px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+<section>
+
+  <div class="container mt-5">
+    <h1 class="mb-4">Giỏ hàng</h1>
+    <table class="table table-striped">
+      <thead>
+      <tr>
+        <th scope="col">Ảnh</th>
+        <th scope="col">Tên sản phẩm</th>
+        <th scope="col">Số lượng</th>
+        <th scope="col">Đơn giá</th>
+        <th scope="col">Thành tiền</th>
+        <th scope="col"></th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="cart : ${carts}" th:id="${cart.id}">
+        <td><img th:src="@{/images/{imageName}(imageName=${cart.getProduct_image()})}" height="50px" width="50px" /></td>
+        <td th:text="${cart.product_name}"></td>
+        <td>
+          <div class="stepper">
+            <button class="stepper-minus">-</button>
+            <span class="stepper-number bg-info" th:text="${cart.quantity}"></span>
+            <button class="stepper-plus">+</button>
+          </div>
+        </td>
+        <td class="single" th:text="${cart.product_price}"></td>
+        <th:block th:with="var = ${cart.product_price}*${cart.quantity}">
+          <td class="each-price" th:text="${var}"></td>
+        </th:block>
+        <td>
+          <th:block th:with="var = ${cart.product_price}*${cart.quantity}">
+            <input th:data-id="${cart.id}" th:data-name="${cart.product_name}" th:data-price="${var}" class="check-choose" type="checkbox" style="scale: 1.5;margin-right: 12px;">
+          </th:block>
+          <button th:data-id="${cart.id}" type="button" class="btn btn-danger delete-cart-btn">Xóa</button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+    <div class="d-flex justify-content-end">
+      <h4>Tổng cộng: $<span id="total"></span></h4>
+    </div>
+    <div class="d-flex justify-content-end mt-3">
+      <button type="button" class="btn btn-success mr-2" id="confirm-book" th:data-user="${session.user}">Thanh toán</button>
+      <button type="button" class="btn btn-secondary" onclick="contBuy()">Tiếp tục mua hàng</button>
+    </div>
+  </div>
+
+</section>
+
+</body>
+</html>
+
+<script>
+
+</script>
